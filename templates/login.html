@@ -3,8 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <style type="text/css">
+          *{
+            margin: 0;
+            padding: 0;
+
+        }
+        #top{
+            top: 0;
+            height: 40vh;
+            width:100%;
+            background-color: #4abebe;
+        }
+        #central{
+            height: 60vh;
+            width: 50%;
+            background-color: #4abebe;
+            float: left;
+            position: relative;
+        }
+        #form{
+            position: absolute;
+            left: 35%;
+
+
+
+        }
+        .side{
+            height: 60vh;
+            width: 25%;
+            background-color: #4abebe;
+            float: left;
+        }
+
+    </style>
 </head>
 <body>
+<div id="top"></div>
+<div class="side"></div>
+<div id="central">
+<div id="form">
     <form method="POST">
         <label for="numbers">Login :</label><br>
         <input type="text"  name="username" placeholder="username..." value="{{ login }}"><br>
@@ -14,8 +52,9 @@
             <strong>Bad password!</strong>
         {% endif %}
     </form>
-
-
+</div>
+</div>
+<div class="side"></div>
 
 </body>
 </html>

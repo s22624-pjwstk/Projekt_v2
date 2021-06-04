@@ -16,6 +16,7 @@ users.append(User(id=1,username='Darek',password='123'))
 users.append(User(id=2,username='Krystian',password='123'))
 users.append(User(id=3,username='Bartek',password='pass'))
 users.append(User(id=4, username='Seba',password='123'))
+users.append(User (id=5,username='Marek',password='123'))
 
 app = Flask(__name__)
 app.secret_key='sekretnyklucz'
