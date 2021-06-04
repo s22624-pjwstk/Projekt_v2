@@ -35,7 +35,7 @@ def login():
             session['user_id'] = user[0].id
             session['username'] = username
             session['timestamp']=datetime.datetime.now()
-            return redirect(url_for('home'))
+            return redirect(url_for('main_side'))
         else:
             return render_template('login.html', login=username, foo=True)
 
@@ -63,3 +63,8 @@ def home():
     # age=session['timestamp']
     # #age=(datetime.datetime.now()-session['timestamp'])
     return render_template('profil.html', name=session['username'])
+@app.route("/main", methods=('GET','Post'))
+def main_side():
+    if request.method=="POST":
+        return redirect(url_for('home'))
+    return render_template('main_side.html')
