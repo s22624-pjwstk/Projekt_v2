@@ -3,15 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <title>main</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+
+        }
+        #top{
+            background-color: darkslategray;
+            height: 15vh;
+            width: 100%;
+            position: relative;
+            margin-top: 0;
+
+}
+#central{
+            background-color: dimgray;
+            height: 85vh;
+            width: 70%;
+            top:0;
+            float: left;
+
+}
+.side{
+            height: 85vh;
+            width: 15%;
+            background-color: darkslategray;
+            top: 0;
+            float: left;
+}
+.top_side{
+    height: auto;
+    width: 33%;
+    float: left;
+}
+input {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #02eff6;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+input:hover{
+    opacity: 0.5;
+}
+       span input  {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+    float: right;
+}
+
+span input:after {
+  content: '>>';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+ span:hover input {
+  padding-right: 25px;
+}
+        span:hover input:after {
+  opacity: 1;
+  right: 0;
+}
+    </style>
 </head>
 
 <body>
+<div id="top" name="top">
+    <div class="top_side">
+        <h1>Pokaż sie chuju</h1>
+    </div>
+    <div class="top_side">
+        <h1> DUPA </h1>
+    </div>
+    <div class="top_side" >
+        <form method="POST">
+            <span>
+            <input class='button' style="vertical-align:middle" type="submit" name="profil" value="profil" >
+            </span>
+        </form>
+    </div>
 
-<h1> DUPA </h1>
+</div>
+<div id="mid" name="mid">
+    <div class="side" name="left">
 
-<form method="POST">
-    <input type="submit" name="profil" value="profil">
-</form>
+    </div>
+    <div id="central" name="central">
+
+    </div>
+    <div class="side" name="right">
+
+    </div>
+
+</div>
 
 </body>
 </html>

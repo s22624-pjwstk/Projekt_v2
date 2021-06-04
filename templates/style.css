@@ -1,0 +1,18 @@
+#top{
+    background-color: aquamarine;
+    height: 15vh;
+    width: 100%;
+    position: relative;
+}
+#central{
+    background-color: chocolate;
+    height: 75vh;
+    width: 50%;
+    top:0;
+}
+.side{
+    height: 75vh;
+    width: 25%;
+    background-color: gold;
+    top: 0;
+}
