@@ -12,11 +12,17 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
-            {{name}} Profile
+            {{user.username}} Profile
           </h1>
           <h2 class="subtitle">
-            You are user number #{{1}}
+            You are user number #{{user.id}}
           </h2>
+            <h2>Followers:</h2>
+            <ul>
+                {% for each in user.followers%}
+                    <li><a href="{{ url_for("profil",username=each)}}">{{ each }}</a></li>
+                {% endfor %}
+            </ul>
         </div>
       </div>
     </section>

@@ -3,10 +3,11 @@ from flask import(
     Flask, render_template,request,session,redirect,url_for,)
 
 class User:
-    def __init__(self,id,username,password):
+    def __init__(self,id,username,password,followers=()):
         self.id = id
         self.username = username
         self.password = password
+        self.followers=followers
     def __repr__(self):
         return f'<User:{self.username}'
 
@@ -20,17 +21,18 @@ class Post:
 
 
 users=[]
-users.append(User(id=1,username='Darek',password='123'))
+users.append(User(id=1,username='Darek',password='123',followers=("Bartek","Seba")))
 users.append(User(id=2,username='Krystian',password='123'))
 users.append(User(id=3,username='Bartek',password='pass'))
-users.append(User(id=4, username='Seba',password='123'))
+users.append(User(id=4, username='Seba',password='123',followers=("Bartek","Darek")))
 users.append(User (id=5,username='Marek',password='123'))
 
+
 posts=[]
-posts.append(Post("Darek","tralalala"))
-posts.append(Post("Darek","tralalala22222"))
-posts.append(Post("Seba","alamakota"))
-posts.append(Post("Bartek","kot nie ma ali"))
+posts.append(Post(users[0].username,"tralalala"))
+posts.append(Post(users[0].username,"tralalala22222"))
+posts.append(Post(users[4].username,"alamakota"))
+posts.append(Post(users[3].username,"kot nie ma ali"))
 
 app = Flask(__name__)
 app.secret_key='sekretnyklucz'
@@ -63,19 +65,26 @@ def logout():
     del session['timestamp']
     return redirect(url_for('login'))
 
-@app.route("/profil" ,methods=('GET', 'POST'))
-# @inactivity_logout
-def profil():
-    # age=session['timestamp']
-    # #age=(datetime.datetime.now()-session['timestamp'])
-    return render_template('profil.html', name=session['username'])
+@app.route("/profil/<username>" ,methods=('GET', 'POST'))
+def profil(username):
+    for each in users:
+        if each.username==username:
+            user=each
+            break
+    return render_template('profil.html',user=user)
+
+
+@app.route("/post",methods=('POST',))
+def post():
+    username=session['username']
+    post=Post(username,request.form['new_post'])
+    posts.append(post)
+    return redirect(url_for("main_side"))
+
 @app.route("/main", methods=('GET','Post'))
 def main_side():
     username=users[0].username
     if request.method=="POST":
-        return redirect(url_for('profil'))
-    return render_template('main_side.html',name=username,username=posts[0].username,username1=posts[1].username,
-                           username2=posts[2].username,
-                           username3=posts[3].username,
-                           wpis=posts[0].text,wpis1=posts[1].text,wpis2=posts[2].text,wpis3=posts[3].text)
+        return redirect(url_for('profil',username=username))
+    return render_template('main_side.html',name=username,posts=posts)
 

@@ -103,10 +103,14 @@ span input:after {
 
     </div>
     <div id="central" name="central">
-        <h1><a href="{{url_for('profil')}}">{{ username }} </a> :{{ wpis }}</h1>
-        <h1><a href="{{url_for('profil')}}"> {{ username1 }}</a> :{{ wpis1 }}</h1>
-        <h1> <a href="{{url_for('profil')}}">{{ username2 }}</a> :{{ wpis2 }}</h1>
-        <h1> <a href="{{url_for('profil')}}">{{ username3 }} </a> :{{ wpis3 }}</h1>
+        {% for each in posts %}
+            <h1><a href="{{ url_for("profil",username=each.username)}}" >{{each.username}}</a>:{{each.text}}</h1><br>
+        {% endfor %}
+    <form method="POST" action="/post">
+        <input type="text" name="new_post" placeholder="dodaj post">
+        <input type="submit" name="dodaj" >
+    </form>
+
     </div>
     <div class="side" name="right">
 
