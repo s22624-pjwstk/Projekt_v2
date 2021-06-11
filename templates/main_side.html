@@ -90,11 +90,7 @@ span input:after {
         <h1> abc </h1>
     </div>
     <div class="top_side" >
-        <form method="POST">
-            <span>
-            <input class='button' style="vertical-align:middle" type="submit" name="profil" value="profil" >
-            </span>
-        </form>
+        <a href="{{url_for("profil",user_id=user)}}"> Profil</a>
     </div>
 
 </div>
@@ -104,7 +100,7 @@ span input:after {
     </div>
     <div id="central" name="central">
         {% for each in posts %}
-            <h1><a href="{{ url_for("profil",user_id=each.user_id)}}" >{{each.user_id}}</a>:{{each.tweet_text}}</h1><br>
+            <h1><a href="{{ url_for("profil",user_id=each.user_id)}}" >{{each.user_name}}</a>:{{each.tweet_text}}</h1><br>
         {% endfor %}
     <form method="POST" action="/post">
         <input type="text" name="new_post" placeholder="dodaj post">

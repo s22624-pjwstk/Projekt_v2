@@ -20,7 +20,7 @@
             <h2>Followers:</h2>
             <ul>
                 {% for each in followers%}
-                    <li><a href="{{ url_for("profil",user_id=each.follower_id)}}">{{ each.follower_id }}</a></li>
+                    <li><a href="{{ url_for("profil",user_id=each.follower_id)}}">{{ each.user_name }}</a></li>
                 {% endfor %}
             </ul>
         </div>

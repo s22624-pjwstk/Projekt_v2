@@ -78,7 +78,7 @@ def logout():
 @app.route("/profil/<int:user_id>" ,methods=('GET', 'POST'))
 def profil(user_id):
     user=query_db("Select * from user where user_id=?",(user_id,),True)
-    followers=query_db("Select * from user_followers where user_id=?",(user_id,))
+    followers=query_db("SELECT * from user_followers JOIN user ON user_followers.follower_id=user.user_id where user_followers.user_id=? ",(user_id,))
     return render_template('profil.html',followers=followers,user=user)
 
 
@@ -92,11 +92,9 @@ def post():
     new_tweet.close()
     return redirect(url_for("main_side"))
 
-@app.route("/main", methods=('GET','Post'))
+@app.route("/main")
 def main_side():
-    posts=query_db("Select * from tweets")
-    if request.method=="POST":
-
-        return redirect(url_for('profil'))
-    return render_template('main_side.html',posts=posts,username=session['username'])
+    user=session['user_id']
+    posts=query_db("Select user.user_id as user_id,user_name,tweet_text From user INNER JOIN tweets on user.user_id=tweets.user_id")
+    return render_template('main_side.html',posts=posts,username=session['username'],user=user)
 
