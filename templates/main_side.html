@@ -104,7 +104,7 @@ span input:after {
     </div>
     <div id="central" name="central">
         {% for each in posts %}
-            <h1><a href="{{ url_for("profil",username=each.username)}}" >{{each.username}}</a>:{{each.text}}</h1><br>
+            <h1><a href="{{ url_for("profil",user_id=each.user_id)}}" >{{each.user_id}}</a>:{{each.tweet_text}}</h1><br>
         {% endfor %}
     <form method="POST" action="/post">
         <input type="text" name="new_post" placeholder="dodaj post">
