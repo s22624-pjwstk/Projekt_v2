@@ -65,9 +65,19 @@ def login():
             return redirect(url_for('main_side'))
         else:
             return render_template('login.html', login=username, foo=True)
-
     return render_template('login.html')
 
+@app.route('/register' ,methods=('GET','POST'))
+def reg():
+    if request.method=='POST':
+        user_name=request.form['username']
+        password=request.form['password']
+        database = get_db()
+        new_user=database.execute("Insert into user (user_name,password) VALUES (?,?)",(user_name,password))
+        database.commit()
+        new_user.close()
+        return redirect(url_for('login'))
+    return render_template('register.html')
 
 @app.route("/logout",methods=('POST',))
 def logout():

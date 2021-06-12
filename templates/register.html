@@ -44,15 +44,11 @@
 <div id="central">
 <div id="form">
     <form method="POST">
-        <label for="numbers">Login :</label><br>
-        <input type="text"  name="username" placeholder="username..." value="{{ login }}"><br>
+        <label for="numbers">Register :</label><br>
+        <input type="text"  name="username" placeholder="username..."><br>
         <input type="password"  name="password" placeholder="password..."><br>
-        <input type="submit" name="foo" value="Login"><br>
-        {% if foo %}
-            <strong>Bad password!</strong>
-        {% endif %}
+        <input type="submit" name="foo" value="register"><br>
     </form>
-    <h1><a href={{ url_for('reg') }}> rejestracja </a></h1>
 </div>
 </div>
 <div class="side"></div>
