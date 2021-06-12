@@ -78,6 +78,29 @@ span input:after {
   opacity: 1;
   right: 0;
 }
+        #l_central{
+            height: auto;
+            width: 75%;
+            float: left;
+        }
+        #R_central{
+            height: auto;
+            width: 25%;
+            float: left;
+        }
+        li{
+            list-style: none;
+        }
+        a{
+            color: black;
+        }
+        a:visited ,a:link{
+            text-decoration: none;
+
+        }
+        a:hover{
+            color: azure;
+        }
     </style>
 </head>
 
@@ -90,7 +113,7 @@ span input:after {
         <h1> abc </h1>
     </div>
     <div class="top_side" >
-        <a href="{{url_for("profil",user_id=user)}}"> Profil</a>
+        <h1> <a href="{{url_for("profil",user_id=user)}}"> Profil</a></h1>
     </div>
 
 </div>
@@ -99,13 +122,26 @@ span input:after {
 
     </div>
     <div id="central" name="central">
+    <div id="l_central">
+    <ul>
         {% for each in posts %}
-            <h1><a href="{{ url_for("profil",user_id=each.user_id)}}" >{{each.user_name}}</a>:{{each.tweet_text}}</h1><br>
+            <li><h2><a href="{{ url_for("profil",user_id=each.user_id)}}" >{{each.user_name}}</a>:{{each.tweet_text}}</h2></li><br>
         {% endfor %}
-    <form method="POST" action="/post">
+    </ul>
+        <form method="POST" action="/post">
         <input type="text" name="new_post" placeholder="dodaj post">
         <input type="submit" name="dodaj" >
     </form>
+    </div>
+    <div id="R_central">
+    <ul>
+         {% for each in posts %}
+             <li><h2>{{ each.created_at }}</h2></li><br>
+        {% endfor %}
+    </ul>
+    </div>
+
+
 
     </div>
     <div class="side" name="right">

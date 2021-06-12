@@ -24,6 +24,11 @@
                 {% endfor %}
             </ul>
         </div>
+      <ul>
+        {% for each in posts %}
+            <li><h2>{{each.user_name}}:{{each.tweet_text}}</h2></li><br>
+        {% endfor %}
+    </ul>
       </div>
     </section>
   </body>
