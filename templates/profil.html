@@ -26,7 +26,7 @@
             <h1><a href="{{ url_for('main_side')}}"> Wróć</a></h1>
         {% if tmp %}
             <form method="POST">
-            <input type="submit" name="follow" value="Obserwuj">
+            <input type="submit" name="follow" value="{{ fol }}">
             </form>
         {% endif %}
         </div>

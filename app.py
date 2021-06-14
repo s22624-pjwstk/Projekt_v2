@@ -104,7 +104,11 @@ def profil(user_id):
         posts = query_db("Select user.user_id as user_id,user_name,tweet_text,tweets.created_at From user INNER JOIN tweets on user.user_id=tweets.user_id and user.user_id=?",(user_id,))
         user=query_db("Select * from user where user_id=?",(user_id,),True)
         followers=query_db("SELECT * from user_followers JOIN user ON user_followers.follower_id=user.user_id where user_followers.user_id=? ",(user_id,))
-        return render_template('profil.html',followers=followers,user=user,posts=posts,tmp=True)
+        if check:
+            fol="Od obesrwuj"
+        else:
+            fol="Obseruj"
+        return render_template('profil.html',followers=followers,user=user,posts=posts,tmp=True,fol=fol)
     else:
         posts = query_db("Select user.user_id as user_id,user_name,tweet_text,tweets.created_at From user INNER JOIN tweets on user.user_id=tweets.user_id and user.user_id=?",(user_id,))
         user=query_db("Select * from user where user_id=?",(user_id,),True)
