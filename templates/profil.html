@@ -23,6 +23,12 @@
                     <li><a href="{{ url_for("profil",user_id=each.follower_id)}}">{{ each.user_name }}</a></li>
                 {% endfor %}
             </ul>
+            <h1><a href="{{ url_for('main_side')}}"> Wróć</a></h1>
+        {% if tmp %}
+            <form method="POST">
+            <input type="submit" name="follow" value="Obserwuj">
+            </form>
+        {% endif %}
         </div>
       <ul>
         {% for each in posts %}

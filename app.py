@@ -4,22 +4,22 @@ import sqlite3
 from flask import(
     Flask, render_template,request,session,redirect,url_for,g)
 
-class User:
-    def __init__(self,id,username,password,followers=()):
-        self.id = id
-        self.username = username
-        self.password = password
-        self.followers=followers
-    def __repr__(self):
-        return f'<User:{self.username}'
-
-class Post:
-    def __init__(self,username,text):
-        self.username=username
-        self.text=text
-    def __repr__(self):
-        rep=self.username+ ":"+ self.text
-        return rep
+# class User:
+#     def __init__(self,id,username,password,followers=()):
+#         self.id = id
+#         self.username = username
+#         self.password = password
+#         self.followers=followers
+#     def __repr__(self):
+#         return f'<User:{self.username}'
+#
+# class Post:
+#     def __init__(self,username,text):
+#         self.username=username
+#         self.text=text
+#     def __repr__(self):
+#         rep=self.username+ ":"+ self.text
+#         return rep
 
 app = Flask(__name__)
 app.secret_key='sekretnyklucz'
@@ -79,7 +79,7 @@ def reg():
         return redirect(url_for('login'))
     return render_template('register.html')
 
-@app.route("/logout",methods=('POST',))
+@app.route("/logout")
 def logout():
     del session['username']
     del session['timestamp']
@@ -87,10 +87,29 @@ def logout():
 
 @app.route("/profil/<int:user_id>" ,methods=('GET', 'POST'))
 def profil(user_id):
-    posts = query_db("Select user.user_id as user_id,user_name,tweet_text,tweets.created_at From user INNER JOIN tweets on user.user_id=tweets.user_id and user.user_id=?",(user_id,))
-    user=query_db("Select * from user where user_id=?",(user_id,),True)
-    followers=query_db("SELECT * from user_followers JOIN user ON user_followers.follower_id=user.user_id where user_followers.user_id=? ",(user_id,))
-    return render_template('profil.html',followers=followers,user=user,posts=posts)
+    login_user=session['user_id']
+    if user_id!=login_user:
+        check=query_db("SELECT user_id,follower_id from user_followers where user_id=? and follower_id=?",(login_user,user_id))
+        if request.method=="POST":
+            if not check:
+                database = get_db()
+                new_follow=database.execute("Insert into user_followers(user_id,follower_id) VALUES (?,?)",(login_user,user_id))
+                database.commit()
+                new_follow.close()
+            else:
+                database = get_db()
+                unfolow=database.execute("Delete from user_followers where user_id=? and follower_id=?",(login_user,user_id))
+                database.commit()
+                unfolow.close()
+        posts = query_db("Select user.user_id as user_id,user_name,tweet_text,tweets.created_at From user INNER JOIN tweets on user.user_id=tweets.user_id and user.user_id=?",(user_id,))
+        user=query_db("Select * from user where user_id=?",(user_id,),True)
+        followers=query_db("SELECT * from user_followers JOIN user ON user_followers.follower_id=user.user_id where user_followers.user_id=? ",(user_id,))
+        return render_template('profil.html',followers=followers,user=user,posts=posts,tmp=True)
+    else:
+        posts = query_db("Select user.user_id as user_id,user_name,tweet_text,tweets.created_at From user INNER JOIN tweets on user.user_id=tweets.user_id and user.user_id=?",(user_id,))
+        user=query_db("Select * from user where user_id=?",(user_id,),True)
+        followers=query_db("SELECT * from user_followers JOIN user ON user_followers.follower_id=user.user_id where user_followers.user_id=? ",(user_id,))
+        return render_template('profil.html',followers=followers,user=user,posts=posts,tmp=False)
 
 
 @app.route("/post",methods=('POST',))
