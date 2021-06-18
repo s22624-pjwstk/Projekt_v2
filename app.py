@@ -4,23 +4,6 @@ import sqlite3
 from flask import(
     Flask, render_template,request,session,redirect,url_for,g)
 
-# class User:
-#     def __init__(self,id,username,password,followers=()):
-#         self.id = id
-#         self.username = username
-#         self.password = password
-#         self.followers=followers
-#     def __repr__(self):
-#         return f'<User:{self.username}'
-#
-# class Post:
-#     def __init__(self,username,text):
-#         self.username=username
-#         self.text=text
-#     def __repr__(self):
-#         rep=self.username+ ":"+ self.text
-#         return rep
-
 app = Flask(__name__)
 app.secret_key='sekretnyklucz'
 
@@ -49,8 +32,8 @@ def query_db(query, args=(), one=False):
 
 @app.route("/")
 def jakos():
-
     return redirect(url_for("login"))
+
 @app.route("/login",methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -69,15 +52,20 @@ def login():
 
 @app.route('/register' ,methods=('GET','POST'))
 def reg():
+    ist=False
     if request.method=='POST':
         user_name=request.form['username']
         password=request.form['password']
-        database = get_db()
-        new_user=database.execute("Insert into user (user_name,password) VALUES (?,?)",(user_name,password))
-        database.commit()
-        new_user.close()
-        return redirect(url_for('login'))
-    return render_template('register.html')
+        the_same_user=query_db("Select * from user Where user_name =?",(user_name,))
+        if not the_same_user:
+            database = get_db()
+            new_user=database.execute("Insert into user (user_name,password) VALUES (?,?)",(user_name,password))
+            database.commit()
+            new_user.close()
+            return redirect(url_for('login'))
+        else:
+            ist=True
+    return render_template('register.html',foo=ist)
 
 @app.route("/logout")
 def logout():
@@ -126,9 +114,23 @@ def post():
     new_tweet.close()
     return redirect(url_for("main_side"))
 
-@app.route("/main")
+@app.route("/main",methods=('POST','GET'))
 def main_side():
+    if request.method=="POST":
+        serch_user_name=request.form['serch']
+        sherch_user=query_db("SELECT user_id from user where user_name=?",(serch_user_name,))
+        if sherch_user:
+            sherch_user=sherch_user[0]
+            sherch_user=sherch_user['user_id']
+            return redirect(url_for('profil', user_id=sherch_user))
+        else:
+            return redirect(url_for('serch',serch_user=serch_user_name))
+
     user=session['user_id']
     posts=query_db("Select user.user_id as user_id,user_name,tweet_text,tweets.created_at From user INNER JOIN tweets on user.user_id=tweets.user_id")
     return render_template('main_side.html',posts=posts,username=session['username'],user=user)
 
+@app.route("/serch/<serch_user>")
+def serch(serch_user):
+    sherch = query_db('SELECT * from user where user_name Like ?',("%"+serch_user+"%",))
+    return render_template('Serch_output.html',users=sherch)

@@ -110,7 +110,10 @@ span input:after {
         <h1><a href="{{ url_for('logout')}}">Wyloguj się </a> </h1>
     </div>
     <div class="top_side">
-        <h1> abc </h1>
+        <form method="POST">
+            <input type="text" name="serch" placeholder="Serch ....">
+            <input type="submit" name="szukaj" value="Serch">
+        </form>
     </div>
     <div class="top_side" >
         <h1> <a href="{{url_for("profil",user_id=user)}}"> Profil</a></h1>
@@ -125,7 +128,7 @@ span input:after {
     <div id="l_central">
     <ul>
         {% for each in posts %}
-            <li><h2><a href="{{ url_for("profil",user_id=each.user_id)}}" >{{each.user_name}}</a>:{{each.tweet_text}}</h2></li><br>
+            <li><h2><a href="{{ url_for("profil",user_id=each.user_id)}}" >{{each.user_name}}</a> : {{each.tweet_text}}</h2></li><br>
         {% endfor %}
     </ul>
         <form method="POST" action="/post">
